@@ -5,10 +5,9 @@ import time
 from binance.client import Client
 from sqlalchemy import create_engine
 
-
 async def main():
     # load api_key and api_secret from a file
-    while True:
+   while True:
         with open('secret.cfg', 'r') as f:
             test_api_key = f.readline().strip()
             test_api_secret = f.readline().strip()
@@ -22,14 +21,8 @@ async def main():
 
         # Create an engine
         engine = create_engine('sqlite:///BTCUSDTprofit.db')
-        con = engine.connect()
-        con.execute(f"""UPDATE BTCUSDT SET Time = '2023-01-14T00:00:00' WHERE Time IS NULL;""")
-        con.close()
-        df = pd.read_sql('BTCUSDT', engine)
-        con = engine.connect()
-        con.execute(f"""UPDATE BTCUSDT SET Time = '2023-01-14T00:00:00' WHERE Time IS NULL;""")
-        con.close()
 
+        df = pd.read_sql('BTCUSDT', engine)
         df.to_gbq(table_id, if_exists='replace', project_id='cryptotable-374610')
         time.sleep(60)
 

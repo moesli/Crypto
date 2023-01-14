@@ -23,7 +23,6 @@ table_id_profit = 'cryptotable-374610.cryptobot.BTCUSDTprofit'
 # Trendfollowing
 # if crypto was rising by x % -> Buy
 # if crypto was falling by x % -> Sell
-
 async def strategy(entry, lookback, qty, open_position=False, orderPrices = []):
     while True:
         df = pd.read_sql('BTCUSDT', engine)
@@ -33,7 +32,6 @@ async def strategy(entry, lookback, qty, open_position=False, orderPrices = []):
             if cumret[cumret.last_valid_index()] > entry:
                 order = client.create_order(symbol='BTCUSDT', side=Client.SIDE_BUY, type=Client.ORDER_TYPE_MARKET,
                                             quantity=qty)
-
                 orderPrices.append(float(order['cummulativeQuoteQty']))
                 open_position = True
         if open_position:
